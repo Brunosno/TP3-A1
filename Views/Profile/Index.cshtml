@@ -1,0 +1,129 @@
+@model Restaurante.Models.ApplicationUser
+
+<style>
+    .profile-container {
+        max-width: 500px;
+        margin: 60px auto;
+        background: linear-gradient(145deg, #132f44, #0f2233);
+        padding: 40px;
+        border-radius: 25px;
+        border: 1px solid rgba(212,175,55,0.3);
+        box-shadow: 
+            0 0 30px rgba(212,175,55,0.15),
+            inset 0 0 20px rgba(255,255,255,0.02);
+        text-align: center;
+    }
+
+    .profile-title {
+        color: #f1d27a;
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+        letter-spacing: 2px;
+        text-shadow: 0 0 10px rgba(212,175,55,0.3);
+    }
+
+    .profile-img {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #d4af37;
+        margin-bottom: 20px;
+        transition: 0.3s;
+    }
+
+    .profile-img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(212,175,55,0.4);
+    }
+
+    .profile-name {
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .profile-email {
+        font-size: 0.9rem;
+        color: #c9c9c9;
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .form-group label {
+        color: #d4af37;
+        font-size: 0.9rem;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid rgba(212,175,55,0.2);
+        background-color: #081520;
+        color: #f5f5f5;
+        margin-top: 5px;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #d4af37, #f1d27a);
+        border: none;
+        border-radius: 15px;
+        color: #081520;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 0 15px rgba(212,175,55,0.3);
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(212,175,55,0.5);
+    }
+</style>
+
+<div class="profile-container">
+
+    <div class="profile-title">MEU PERFIL</div>
+
+    <img id="preview"
+         src="@(Model.ImageUrl ?? "/images/default-user.png")"
+         class="profile-img"
+         onerror="this.src='/images/default-user.png'" />
+
+    <div class="profile-name">@Model.Name</div>
+    <div class="profile-email">@Model.Email</div>
+
+    <form asp-action="Update" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label>Alterar foto</label>
+            <input type="file" name="image" id="imageInput" />
+        </div>
+
+        <button type="submit" class="btn-submit">Atualizar Foto</button>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <script>
+        const input = document.getElementById("imageInput");
+        const preview = document.getElementById("preview");
+
+        input.addEventListener("change", function () {
+            const file = this.files[0];
+
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+            }
+        });
+    </script>
+}

@@ -1,0 +1,250 @@
+@model IEnumerable<Restaurante.Models.Dish>
+
+@{
+    var chefSuggestions = Model.Where(d => d.CheffSuggest).ToList();
+    var lunch = Model.Where(d => d.Period == Restaurante.Models.Period.LUNCH && !d.CheffSuggest).ToList();
+    var dinner = Model.Where(d => d.Period == Restaurante.Models.Period.DINNER && !d.CheffSuggest).ToList();
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<style>
+    body {
+        background: radial-gradient(circle at top, #0f2233, #081520);
+        color: #f5f5f5;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .dish-img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 15px;
+        margin-bottom: 15px;
+        border: 1px solid rgba(212,175,55,0.2);
+        transition: 0.4s;
+        filter: brightness(0.9);
+    }
+
+    .card-dish:hover .dish-img {
+        transform: scale(1.08);
+        filter: brightness(1.1);
+    }
+
+    .title {
+        text-align: center;
+        margin: 60px 0;
+        font-size: 2.2rem;
+        letter-spacing: 4px;
+        color: #f1d27a;
+        text-shadow: 0 0 10px rgba(212,175,55,0.3);
+    }
+
+    .section-title {
+        text-align: center;
+        color: #d4af37;
+        margin-bottom: 35px;
+        font-size: 1.7rem;
+        letter-spacing: 2px;
+        position: relative;
+    }
+
+    .section-title::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(to right, transparent, #d4af37, transparent);
+        margin: 10px auto;
+    }
+
+    .chef-highlight {
+        background: linear-gradient(145deg, #132f44, #0f2233);
+        border: 1px solid rgba(212,175,55,0.4);
+        border-radius: 25px;
+        padding: 45px;
+        margin-bottom: 70px;
+        box-shadow: 
+            0 0 30px rgba(212,175,55,0.15),
+            inset 0 0 20px rgba(255,255,255,0.02);
+    }
+
+    .card-dish {
+        background: linear-gradient(145deg, #132f44, #0f2233);
+        border-radius: 20px;
+        border: 1px solid rgba(212,175,55,0.15);
+        padding: 25px;
+        transition: all 0.3s ease;
+        height: 100%;
+        text-align: center;
+        backdrop-filter: blur(6px);
+    }
+
+    .card-dish:hover {
+        transform: translateY(-10px) scale(1.02);
+        background: linear-gradient(145deg, #1a3d57, #132f44);
+        box-shadow: 
+            0 10px 30px rgba(0,0,0,0.4),
+            0 0 20px rgba(212,175,55,0.3);
+        border: 1px solid #d4af37;
+    }
+
+    .dish-name {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #f5f5f5;
+        letter-spacing: 1px;
+    }
+
+    .dish-description {
+        color: #c9c9c9;
+        font-size: 0.9rem;
+        margin: 12px 0;
+        line-height: 1.4;
+    }
+
+    .badge-period {
+        background: linear-gradient(135deg, #d4af37, #f1d27a);
+        color: #081520;
+        font-weight: bold;
+        padding: 6px 12px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        box-shadow: 0 0 10px rgba(212,175,55,0.3);
+    }
+
+    .price-box {
+        margin-top: 18px;
+    }
+
+    .price-new {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #f1d27a;
+        text-shadow: 0 0 8px rgba(212,175,55,0.3);
+    }
+
+    .price-old {
+        text-decoration: line-through;
+        color: #888;
+        font-size: 0.9rem;
+        margin-left: 8px;
+    }
+
+    .chef-badge {
+        background: linear-gradient(135deg, #d4af37, #f1d27a);
+        color: #081520;
+        padding: 6px 14px;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        box-shadow: 0 0 15px rgba(212,175,55,0.4);
+    }
+
+    .divider {
+        height: 1px;
+        background: linear-gradient(to right, transparent, #d4af37, transparent);
+        margin: 60px 0;
+    }
+</style>
+
+<div class="container">
+
+    <h1 class="title">🍽️ CARDÁPIO PREMIUM</h1>
+
+    @if (chefSuggestions.Any())
+    {
+        <div class="chef-highlight">
+            <h2 class="section-title">🔥 Sugestão do Chef</h2>
+
+            <div class="row justify-content-center">
+                @foreach (var item in chefSuggestions)
+                {
+                    <div class="col-md-5 mb-4">
+                        <div class="card-dish">
+
+                            <img src="@(item.ImageUrl ?? "/images/default-dish.png")"
+                                class="dish-img"
+                                onerror="this.src='/images/default-dish.png'" />
+
+                            <div class="d-flex justify-content-center mb-2">
+                                <span class="chef-badge">20% OFF</span>
+                            </div>
+
+                            <div class="dish-name">@item.Name</div>
+
+                            <div class="dish-description">@item.Description</div>
+
+                            <span class="badge badge-period">
+                                @(item.Period == Restaurante.Models.Period.LUNCH ? "Almoço" : "Jantar")
+                            </span>
+
+                            <div class="price-box">
+                                <span class="price-new">R$ @(item.BasePrice * 0.8)</span>
+                                <span class="price-old">R$ @item.BasePrice</span>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <h3 class="section-title">🍽️ ALMOÇO</h3>
+
+    <div class="row">
+        @foreach (var item in lunch)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card-dish">
+
+                    <img src="@(item.ImageUrl ?? "/images/default-dish.png")"
+                        class="dish-img"
+                        onerror="this.src='/images/default-dish.png'" />
+
+                    <div class="dish-name">@item.Name</div>
+
+                    <div class="dish-description">@item.Description</div>
+
+                    <span class="badge badge-period">Almoço</span>
+
+                    <div class="price-box">
+                        <span class="price-new">R$ @item.BasePrice</span>
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="divider"></div>
+
+    <h3 class="section-title">🌙 JANTAR</h3>
+
+    <div class="row">
+        @foreach (var item in dinner)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card-dish">
+
+                    <img src="@(item.ImageUrl ?? "/images/default-dish.png")"
+                        class="dish-img"
+                        onerror="this.src='/images/default-dish.png'" />
+
+                    <div class="dish-name">@item.Name</div>
+
+                    <div class="dish-description">@item.Description</div>
+
+                    <span class="badge badge-period">Jantar</span>
+
+                    <div class="price-box">
+                        <span class="price-new">R$ @item.BasePrice</span>
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+
+</div>

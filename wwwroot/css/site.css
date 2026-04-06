@@ -1,0 +1,138 @@
+html {
+  font-size: 14px;
+  scroll-behavior: smooth;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* ===== FUNDO GLOBAL ===== */
+body {
+  position: relative;
+  min-height: 100%;
+  margin-bottom: 60px;
+
+  background: radial-gradient(circle at top, #0f2233, #081520);
+  color: #f5f5f5;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ===== FOCO (AZUL → DOURADO PREMIUM) ===== */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+
+  outline: none;
+  box-shadow:
+    0 0 0 1px #081520,
+    0 0 0 3px rgba(212,175,55,0.6),
+    0 0 12px rgba(212,175,55,0.4);
+}
+
+/* ===== INPUTS ===== */
+.form-control {
+  background-color: #081520;
+  border: 1px solid rgba(212,175,55,0.2);
+  color: #f5f5f5;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.form-control:focus {
+  border-color: #d4af37;
+  background-color: #081520;
+  color: #f5f5f5;
+}
+
+/* ===== PLACEHOLDER ===== */
+.form-control::placeholder {
+  color: #aaa;
+  text-align: start;
+}
+
+/* ===== FORM FLOATING ===== */
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
+  color: #aaa;
+  text-align: start;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+/* ===== BOTÕES ===== */
+.btn {
+  border-radius: 12px;
+  transition: 0.3s;
+  font-weight: 500;
+}
+
+/* Botão principal dourado */
+.btn-primary {
+  background: linear-gradient(135deg, #d4af37, #f1d27a);
+  border: none;
+  color: #081520;
+  box-shadow: 0 0 10px rgba(212,175,55,0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(212,175,55,0.5);
+}
+
+/* Links */
+a {
+  color: #f1d27a;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #d4af37;
+  text-shadow: 0 0 8px rgba(212,175,55,0.4);
+}
+
+/* ===== CARDS BASE (reutilizável no sistema todo) ===== */
+.card {
+  background: linear-gradient(145deg, #132f44, #0f2233);
+  border-radius: 20px;
+  border: 1px solid rgba(212,175,55,0.2);
+  box-shadow:
+    0 0 25px rgba(212,175,55,0.1),
+    inset 0 0 10px rgba(255,255,255,0.02);
+  color: #f5f5f5;
+}
+
+/* ===== ALERTAS / VALIDAÇÃO ===== */
+.validation-summary-errors {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  color: #ffb3b3;
+}
+
+/* ===== SCROLLBAR (detalhe premium) ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #081520;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4af37;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f1d27a;
+}
